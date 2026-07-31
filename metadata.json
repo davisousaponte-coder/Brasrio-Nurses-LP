@@ -1,0 +1,8 @@
+{
+  "name": "Brasrio Nurses",
+  "description": "Clínica especializada no tratamento de feridas simples e complexas com tecnologia avançada e atendimento humanizado.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
