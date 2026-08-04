@@ -31,10 +31,10 @@ import recepcaoImg from './assets/images/recepcao.jpg';
 import espaco2Img from './assets/images/espaco_2.jpg';
 import espaco3Img from './assets/images/espaco_3.jpg';
 
-const etapa1Img = "/images/etapa_1.png";
-const etapa2Img = "/images/etapa_2.png";
-const etapa3Img = "/images/etapa_3.png";
-const etapa4Img = "/images/etapa_4.png";
+import etapa1Img from './assets/images/etapa_1.png';
+import etapa2Img from './assets/images/etapa_2.png';
+import etapa3Img from './assets/images/etapa_3.png';
+import etapa4Img from './assets/images/etapa_4.png';
 
 // Depoimentos dos pacientes via imagens de feedback
 
@@ -268,7 +268,8 @@ function SpacesCarousel() {
               referrerPolicy="no-referrer"
               onError={(e) => {
                 const target = e.currentTarget;
-                if (target.src !== slide.fallbackImg) {
+                if (!target.dataset.failed) {
+                  target.dataset.failed = 'true';
                   target.src = slide.fallbackImg;
                 }
               }}
@@ -347,6 +348,14 @@ function SpacesCarousel() {
               src={slide.img} 
               alt={slide.title} 
               className="w-full h-full object-cover" 
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.dataset.failed) {
+                  target.dataset.failed = 'true';
+                  target.src = slide.fallbackImg;
+                }
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-1.5 flex items-end">
               <span className="text-[10px] md:text-xs text-white font-bold truncate">
@@ -408,6 +417,7 @@ const BeforeAfter = () => {
       title: "ETAPA 1",
       subtitle: "Início do tratamento",
       img: etapa1Img,
+      fallbackImg: "https://i.ibb.co/vxnNJzgC/card-etapa-1.png",
       desc: "Avaliação inicial e elaboração do plano terapêutico individualizado."
     },
     {
@@ -415,6 +425,7 @@ const BeforeAfter = () => {
       title: "ETAPA 2",
       subtitle: "Desbridamento",
       img: etapa2Img,
+      fallbackImg: "https://i.ibb.co/7dG1W8T2/card-etapa-2.png",
       desc: "Limpeza especializada e remoção do tecido desvitalizado para preparo da lesão."
     },
     {
@@ -422,6 +433,7 @@ const BeforeAfter = () => {
       title: "ETAPA 3",
       subtitle: "Granulação",
       img: etapa3Img,
+      fallbackImg: "https://i.ibb.co/jPxRbqjN/card-etapa-3.png",
       desc: "Formação de novo tecido saudável e aceleração da regeneração celular."
     },
     {
@@ -429,6 +441,7 @@ const BeforeAfter = () => {
       title: "ETAPA 4",
       subtitle: "Cicatrização",
       img: etapa4Img,
+      fallbackImg: "https://i.ibb.co/V860yFZ/card-etapa-4.png",
       desc: "Epitelização completa da pele e cicatrização definitiva com restauração da área."
     }
   ];
@@ -459,6 +472,13 @@ const BeforeAfter = () => {
                   alt={`${st.title} - ${st.subtitle}`} 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.dataset.failed) {
+                      target.dataset.failed = 'true';
+                      target.src = st.fallbackImg;
+                    }
+                  }}
                 />
                 <div className="absolute top-1.5 left-1.5 sm:top-3 sm:left-3 w-6 h-6 sm:w-9 sm:h-9 bg-[#187265] text-white font-black text-xs sm:text-base rounded-full flex items-center justify-center shadow-md">
                   {st.step}
