@@ -40,16 +40,16 @@ import etapa4Img from './assets/images/etapa_4.png';
 
 // --- CONFIGURAÇÃO DA CLÍNICA ---
 // Altere aqui o número do WhatsApp (apenas números, com DDD e 55)
-const PHONE_NUMBER = "5500000000000"; 
+const PHONE_NUMBER = "556137022002"; 
 const WHATSAPP_LINK = `https://wa.me/${PHONE_NUMBER}?text=Olá,%20gostaria%20de%20agendar%20uma%20avaliação%20na%20Clínica%20Brasrio%20Nurses.`;
-const PHONE_DISPLAY = "(00) 00000-0000"; // Como o número aparece no texto
+const PHONE_DISPLAY = "(61) 3702-2002"; // Como o número aparece no texto
 
 // --- CONFIGURAÇÃO DE RASTREAMENTO E CONVERSÕES ---
 // Insira seus IDs abaixo para disparar e rastrear conversões automaticamente ao clicar nos botões do WhatsApp.
 // Se você já tem as tags configuradas diretamente no Google Tag Manager ou no index.html, pode deixar em branco,
 // pois o código já detecta e dispara as conversões nesses sistemas de forma automática!
-const GOOGLE_ADS_CONVERSION_ID = "";     // Exemplo: "AW-1122334455"
-const GOOGLE_ADS_CONVERSION_LABEL = "";  // Exemplo: "abCDeFGhIJKlMNoPQ"
+const GOOGLE_ADS_CONVERSION_ID = "AW-18144885986";     // Exemplo: "AW-1122334455"
+const GOOGLE_ADS_CONVERSION_LABEL = "_PcbCOft898cEOL5k8xD";  // Exemplo: "abCDeFGhIJKlMNoPQ"
 const META_PIXEL_ID = "";                // Exemplo: "123456789012345"
 
 // Função para rastrear a conversão ao clicar nos botões do WhatsApp
@@ -214,25 +214,25 @@ const Hero = () => (
 function SpacesCarousel() {
   const slides = [
     {
-      img: recepcaoImg,
-      fallbackImg: "/images/recepcao.jpg",
-      badge: "Recepção Acolhedora",
+      img: "https://i.ibb.co/S7sDMBG3/Recep-o-Brasrio.jpg",
+      fallbackImg: recepcaoImg,
+      badge: "Recepção Principal",
       title: "Recepção da Clínica Brasrio Nurses",
-      desc: "Ambiente humanizado, moderno e confortável, preparado com carinho para acolher você e sua família."
+      desc: "Ambiente acolhedor, moderno e altamente confortável, preparado com carinho para receber você."
     },
     {
-      img: espaco2Img,
-      fallbackImg: "/images/espaco_2.jpg",
-      badge: "Salas de Atendimento",
-      title: "Consultório & Estrutura Especializada",
-      desc: "Ambiente privativo totalmente equipado com tecnologia avançada e normas de biossegurança."
+      img: "https://i.ibb.co/C517MnxJ/BRASRIO-70.jpg",
+      fallbackImg: espaco2Img,
+      badge: "Recepção & Espera",
+      title: "Espaço Climatizado e Humanizado",
+      desc: "Estrutura ampla e confortável projetada para proporcionar tranquilidade desde o primeiro atendimento."
     },
     {
-      img: espaco3Img,
-      fallbackImg: "/images/espaco_3.jpg",
-      badge: "Conforto & Acolhimento",
-      title: "Infraestrutura Moderna e Humanizada",
-      desc: "Projetada para proporcionar tranquilidade e bem-estar durante todo o acompanhamento médico."
+      img: "https://i.ibb.co/xttgcTVx/BRASRIO-72.jpg",
+      fallbackImg: espaco3Img,
+      badge: "Estrutura Integrada",
+      title: "Design Moderno e Acolhedor",
+      desc: "Ambiente higienizado e equipado dentro das normas rígidas de biossegurança e enfermagem."
     }
   ];
 
@@ -1116,6 +1116,21 @@ const Footer = () => {
                   SGAS 910, Bloco F, Via W4 Sul, Salas 236 e 238
                   <br />Asa Sul, Brasília - DF, 70390-100
                 </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <Phone className="w-5 h-5 text-brand-gold-400 flex-shrink-0 mt-1" />
+              <div>
+                <p className="font-bold text-gray-100 text-sm">Atendimento e WhatsApp</p>
+                <a 
+                  href={WHATSAPP_LINK} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-brand-gold-400 hover:text-brand-gold-300 font-bold text-sm transition-colors inline-block mt-0.5"
+                >
+                  +55 {PHONE_DISPLAY}
+                </a>
               </div>
             </div>
             
