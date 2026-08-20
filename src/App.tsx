@@ -645,7 +645,7 @@ const VacuumDressing = () => (
           </div>
           <div className="h-full min-h-[300px] lg:min-h-[450px] relative order-first lg:order-last">
              <img 
-                src="https://i.ibb.co/v4W9rSRM/Curativo-a-vacuo.jpg" 
+                src="https://i.ibb.co/q3rFbSmQ/Curativo-a-vacuo.jpg" 
                 alt="Tratamento com Curativo a Vácuo" 
                 className="absolute inset-0 w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -819,8 +819,8 @@ const About = () => (
         <div className="flex justify-center">
           <div className="w-full max-w-md rounded-[2.5rem] overflow-hidden shadow-xl border-4 border-white bg-white/50 p-2 hover:scale-[1.01] transition-transform duration-300">
             <img 
-              src="/images/juntas.jpg" 
-              alt="Dra. Vanessa Oliveira e Dra. Juliane Brandão" 
+              src="https://i.ibb.co/pBkwkYvF/Juntas-brasrio.jpg" 
+              alt="Enf. Vanessa Oliveira e Enf. Juliane Brandão" 
               className="w-full h-auto object-cover rounded-[2rem]"
               referrerPolicy="no-referrer"
             />
