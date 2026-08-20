@@ -645,12 +645,12 @@ const VacuumDressing = () => (
           </div>
           <div className="h-full min-h-[300px] lg:min-h-[450px] relative order-first lg:order-last">
              <img 
-                src="https://images.unsplash.com/photo-1516549655169-df83a0774514?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
-                alt="Tecnologia Médica" 
-                className="absolute inset-0 w-full h-full object-cover opacity-80"
+                src="https://i.ibb.co/v4W9rSRM/Curativo-a-vacuo.jpg" 
+                alt="Tratamento com Curativo a Vácuo" 
+                className="absolute inset-0 w-full h-full object-cover"
                 referrerPolicy="no-referrer"
              />
-             <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900 lg:bg-gradient-to-r lg:from-brand-blue-900" />
+             <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-900/60 lg:bg-gradient-to-r lg:from-brand-blue-900/80 via-transparent to-transparent pointer-events-none" />
           </div>
         </div>
       </div>
@@ -837,7 +837,7 @@ const Specialists = () => {
       name: "Enf. Vanessa Oliveira",
       coren: "COREN-DF 594448",
       specialty: "Especialista em tratamento de feridas, práticas integrativas e tecnologias de cicatrização",
-      image: "/images/vanessa.jpg",
+      image: "https://i.ibb.co/VY3rsZz0/Vanessa-Brasrio.jpg",
       bullets: [
         "Sócio-proprietária da BrasaRio Nurses – referência em tratamento de feridas",
         "Graduada em Enfermagem pela Faculdade Anhanguera",
@@ -852,7 +852,7 @@ const Specialists = () => {
       name: "Enf. Juliane Brandão",
       coren: "COREN-DF 550882",
       specialty: "Especialista em cuidado avançado de feridas e cicatrização tecnológica",
-      image: "/images/jully.jpg",
+      image: "https://i.ibb.co/5gVrKk2D/Jully-Brasrio.jpg",
       bullets: [
         "Sócio-proprietária da BrasaRio Nurses – tratamento especializado de feridas",
         "Graduada em Enfermagem pela Faculdade Anhanguera",
