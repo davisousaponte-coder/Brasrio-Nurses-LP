@@ -22,7 +22,10 @@ import {
   Activity,
   Award,
   Heart,
-  Star
+  Star,
+  Search,
+  X,
+  FileText
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Logo } from './components/Logo';
@@ -177,10 +180,7 @@ const Hero = () => (
           ATENDIMENTO ESPECIALIZADO EM FERIDAS
         </div>
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-heading font-extrabold text-brand-blue-900 leading-tight mb-6 max-w-3xl">
-          Tratamento avançado para <span className="text-brand-gold-600">feridas</span> e <span className="relative inline-block">
-            <span className="relative z-10">cicatrização</span>
-            <span className="absolute bottom-1 left-0 w-full h-2.5 bg-brand-gold-200/50 -z-10" />
-          </span>
+          Tratamento avançado para <span className="text-brand-gold-600">feridas e cicatrização</span>
         </h1>
         <p className="text-base md:text-lg text-brand-blue-700 leading-relaxed max-w-2xl mb-8">
           Atendimento especializado para feridas simples e de difícil cicatrização com tecnologia de ponta e equipe focada no seu bem-estar.
@@ -969,58 +969,193 @@ const HowItWorks = () => {
   );
 };
 
+const ALL_INSURANCES = [
+  "AFEB BRASAL",
+  "ALLIANZ SAÚDE",
+  "BACEN",
+  "BRB SAÚDE",
+  "CAMED SAÚDE",
+  "CASEC (CADEVASF)",
+  "CASEMBRAPA",
+  "CONAB",
+  "ELETRONORTE (E-VIDA)",
+  "EMBRATEL (AMAP)",
+  "FACEB",
+  "FAPES (BNDES)",
+  "FASCAL",
+  "GAMA SAÚDE",
+  "GDF SAÚDE – INAS",
+  "OMINT",
+  "PF SAÚDE (POLÍCIA FEDERAL)",
+  "PLAN ASSISTE (MPU/MPF/MPM/MPT)",
+  "PROASA",
+  "PRO-SOCIAL TRF1",
+  "SAMP / AGMP",
+  "SAÚDE CAIXA",
+  "SAÚDE PETROBRÁS",
+  "SIS",
+  "STF / MED",
+  "STM (PLAS / JMU)",
+  "TELOS (AMAP)",
+  "TJDFT",
+  "TRÊ",
+  "TRT 10ª REGIÃO",
+  "TST SAÚDE",
+  "UNAFISCO"
+];
+
+const INSURANCE_LOGOS: Record<string, string> = {
+  "SAÚDE CAIXA": "https://i.ibb.co/Kc1mBhz5/Sa-de-Caixa.png",
+  "GDF SAÚDE – INAS": "https://i.ibb.co/1GNqFgfn/Inas.png",
+  "ELETRONORTE (E-VIDA)": "https://i.ibb.co/NgjPRLCK/Luminar.jpg",
+  "FASCAL": "https://i.ibb.co/LXNLzCcn/Fascal.webp",
+  "SIS": "https://i.ibb.co/ZR97xJD8/SIS.jpg",
+  "TJDFT": "https://i.ibb.co/qFVQbcRK/TJDFT.png"
+};
+
 const Insurances = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
   const list = [
-    { name: "Saúde Caixa", short: "Saúde Caixa" },
-    { name: "INAS GDF", short: "INAS GDF" },
-    { name: "É Vida (Lumiar)", short: "É Vida" },
-    { name: "Fascal", short: "Fascal" },
-    { name: "SIS Senado", short: "SIS Senado" },
-    { name: "TJDFT", short: "TJDFT" }
+    { 
+      name: "Saúde Caixa", 
+      short: "Saúde Caixa",
+      logo: "https://i.ibb.co/Kc1mBhz5/Sa-de-Caixa.png" 
+    },
+    { 
+      name: "INAS GDF", 
+      short: "INAS GDF",
+      logo: "https://i.ibb.co/1GNqFgfn/Inas.png" 
+    },
+    { 
+      name: "Lumiar Saúde", 
+      short: "Lumiar Saúde",
+      logo: "https://i.ibb.co/NgjPRLCK/Luminar.jpg" 
+    },
+    { 
+      name: "Fascal", 
+      short: "Fascal",
+      logo: "https://i.ibb.co/LXNLzCcn/Fascal.webp" 
+    },
+    { 
+      name: "SIS", 
+      short: "SIS (Senado)",
+      logo: "https://i.ibb.co/ZR97xJD8/SIS.jpg" 
+    },
+    { 
+      name: "TJDFT", 
+      short: "TJDFT",
+      logo: "https://i.ibb.co/qFVQbcRK/TJDFT.png" 
+    }
   ];
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsModalOpen(false);
+    };
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isModalOpen]);
+
+  const filteredInsurances = ALL_INSURANCES.filter(item => 
+    item.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <section className="py-8 md:py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         <SectionHeader title="Aceitamos Convênios" subtitle="Confira alguns dos principais convênios que atendemos em nossa clínica." centered />
         
+        {/* Destaque dos 6 principais com Logos e Nomes */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mt-8 max-w-5xl mx-auto">
           {list.map((item, i) => (
-            <div key={i} className="h-20 sm:h-24 w-full bg-brand-blue-50/50 rounded-2xl flex flex-col items-center justify-center p-2.5 sm:p-4 border border-brand-blue-100/60 hover:border-brand-gold-400 hover:bg-white hover:shadow-md transition-all duration-300 group text-center">
-              <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-brand-blue-400 group-hover:text-brand-gold-500 transition-colors mb-1 sm:mb-2" />
-              <p className="text-xs sm:text-base font-extrabold text-brand-blue-900 group-hover:text-brand-gold-600 transition-colors">
-                {item.short}
-              </p>
-              {item.name !== item.short && (
-                <p className="text-[9px] sm:text-[10px] font-bold text-brand-blue-400 mt-0.5 sm:mt-1 uppercase tracking-wider group-hover:text-brand-blue-600 transition-colors">
-                  {item.name}
+            <div 
+              key={i} 
+              className="h-28 sm:h-32 w-full bg-white rounded-2xl flex flex-col items-center justify-between p-3 sm:p-3.5 border border-brand-blue-100/80 shadow-sm hover:border-brand-gold-400 hover:shadow-md hover:-translate-y-1 transition-all duration-300 group text-center"
+            >
+              <div className="w-full h-14 sm:h-16 flex items-center justify-center p-1 rounded-xl bg-slate-50/70 group-hover:bg-brand-blue-50/50 transition-colors">
+                <img 
+                  src={item.logo} 
+                  alt={`Logo ${item.name}`} 
+                  className="max-h-full max-w-[92%] object-contain filter group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <div className="mt-1.5 w-full">
+                <p className="text-xs sm:text-[13px] font-extrabold text-brand-blue-900 group-hover:text-brand-gold-600 transition-colors leading-tight">
+                  {item.short}
                 </p>
-              )}
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Caixa em destaque para "E diversos outros / Consulte-nos" */}
+        {/* Botão de Destaque para Abrir Lista Completa dos 32 Planos */}
         <div className="mt-8 flex justify-center">
+          <button
+            onClick={() => {
+              setIsModalOpen(true);
+              setSearchTerm('');
+            }}
+            id="btn-ver-todos-convenios"
+            className="inline-flex items-center gap-3 bg-brand-blue-900 hover:bg-brand-blue-800 text-white font-extrabold px-6 sm:px-8 py-4 rounded-full shadow-lg shadow-brand-blue-900/15 hover:shadow-xl hover:shadow-brand-blue-900/25 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 border-2 border-brand-gold-400/50 group cursor-pointer"
+          >
+            <div className="w-8 h-8 rounded-full bg-brand-gold-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <FileText className="w-4 h-4 text-brand-gold-400" />
+            </div>
+            <span className="text-sm sm:text-base tracking-wide">
+              Clique para ver todos os Planos Atendidos
+            </span>
+            <span className="bg-brand-gold-500 text-brand-blue-950 font-black text-xs px-2.5 py-1 rounded-full uppercase tracking-wider shrink-0 shadow-sm">
+              32 Planos
+            </span>
+          </button>
+        </div>
+
+        {/* Caixa em destaque para "E diversos outros / Consulte-nos" */}
+        <div className="mt-6 flex justify-center">
           <div className="bg-gradient-to-br from-brand-gold-50/70 to-brand-blue-50/30 border-2 border-brand-gold-300/50 rounded-3xl p-6 md:p-8 text-center max-w-xl w-full shadow-lg shadow-brand-gold-500/5 hover:shadow-xl hover:border-brand-gold-400 transition-all duration-300">
             <span className="inline-flex items-center gap-1.5 bg-brand-gold-500 text-white text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full mb-3 shadow-sm">
-              Mais Opções
+              Mais Opções & Reembolso
             </span>
             <h4 className="text-2xl md:text-3xl font-black text-brand-blue-900 tracking-tight">
               E diversos outros...
             </h4>
-            <p className="text-brand-blue-700 font-bold text-base md:text-lg mt-2 mb-5 leading-normal">
+            <p className="text-brand-blue-700 font-bold text-base md:text-lg mt-2 mb-4 leading-normal">
               Não encontrou seu convênio? Consulte-nos agora para verificar a cobertura ou obter auxílio com reembolso!
             </p>
-            <a 
-              href={WHATSAPP_LINK}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 bg-brand-gold-500 hover:bg-brand-gold-600 text-white font-extrabold px-6 py-3.5 rounded-full shadow-md hover:shadow-lg transition-all text-sm md:text-base group"
-            >
-              Consulte-nos pelo WhatsApp
-              <ShieldCheck className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            </a>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <a 
+                href={WHATSAPP_LINK}
+                onClick={trackWhatsAppConversion}
+                target="_blank"
+                rel="noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand-gold-500 hover:bg-brand-gold-600 text-white font-extrabold px-6 py-3.5 rounded-full shadow-md hover:shadow-lg transition-all text-sm md:text-base group"
+              >
+                Consulte-nos pelo WhatsApp
+                <ShieldCheck className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              </a>
+              <button
+                onClick={() => {
+                  setIsModalOpen(true);
+                  setSearchTerm('');
+                }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-brand-blue-50 text-brand-blue-900 font-bold px-5 py-3.5 rounded-full border border-brand-blue-200 hover:border-brand-blue-300 transition-all text-sm cursor-pointer"
+              >
+                <FileText className="w-4 h-4 text-brand-gold-600" />
+                Ver lista completa
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1030,6 +1165,168 @@ const Insurances = () => {
           </p>
         </div>
       </div>
+
+      {/* Modal Organizado com Todos os Planos de Saúde */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-brand-blue-950/75 backdrop-blur-sm"
+            onClick={() => setIsModalOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.94, y: 16 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-3xl shadow-2xl border border-brand-blue-100 max-w-3xl w-full max-h-[90vh] flex flex-col overflow-hidden"
+            >
+              {/* Header do Modal com Identidade Visual Brasrio */}
+              <div className="p-5 sm:p-6 bg-gradient-to-r from-brand-blue-900 via-brand-blue-900 to-brand-blue-950 text-white relative">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-2xl bg-brand-gold-500/20 border border-brand-gold-400/40 flex items-center justify-center shrink-0 shadow-inner">
+                      <ShieldCheck className="w-6 h-6 text-brand-gold-400" />
+                    </div>
+                    <div>
+                      <span className="inline-block text-[11px] font-black uppercase tracking-wider text-brand-gold-300 bg-brand-gold-500/15 px-2.5 py-0.5 rounded-full border border-brand-gold-400/30 mb-1">
+                        Brasrio Nurses • Convênios
+                      </span>
+                      <h3 className="text-xl sm:text-2xl font-heading font-black text-white leading-tight">
+                        Lista de Planos de Saúde que atendemos!
+                      </h3>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setIsModalOpen(false)}
+                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors shrink-0 cursor-pointer"
+                    aria-label="Fechar lista"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <p className="text-brand-blue-200 text-xs sm:text-sm mt-3 leading-relaxed">
+                  Consulte abaixo a relação completa de convênios aceitos. Digite o nome do seu plano para busca rápida:
+                </p>
+
+                {/* Barra de Busca Interativa */}
+                <div className="relative mt-3.5">
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-blue-300 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Digite o nome do seu plano (ex: Caixa, Petrobrás, GDF, TRF, Fascal...)"
+                    className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-brand-blue-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold-400 focus:bg-white/15 transition-all"
+                  />
+                  {searchTerm && (
+                    <button 
+                      onClick={() => setSearchTerm('')}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-blue-300 hover:text-white transition-colors cursor-pointer"
+                      title="Limpar busca"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Corpo da Lista com Scroll Suave */}
+              <div className="p-5 sm:p-6 overflow-y-auto flex-1 divide-y divide-brand-blue-50">
+                <div className="flex items-center justify-between mb-3 text-xs text-brand-blue-600 font-bold">
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
+                    {filteredInsurances.length} {filteredInsurances.length === 1 ? 'plano encontrado' : 'planos credenciados'}
+                  </span>
+                  {searchTerm && (
+                    <button 
+                      onClick={() => setSearchTerm('')} 
+                      className="text-brand-gold-600 hover:text-brand-gold-700 font-bold underline cursor-pointer"
+                    >
+                      Limpar filtro
+                    </button>
+                  )}
+                </div>
+
+                {filteredInsurances.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-3">
+                    {filteredInsurances.map((plan, index) => {
+                      const logo = INSURANCE_LOGOS[plan];
+                      return (
+                        <div
+                          key={index}
+                          className="flex items-center gap-2.5 p-3 rounded-xl bg-brand-blue-50/40 border border-brand-blue-100/70 hover:bg-brand-blue-50 hover:border-brand-gold-400/70 hover:shadow-sm transition-all duration-200 group"
+                        >
+                          {logo ? (
+                            <div className="w-8 h-7 rounded-lg bg-white border border-brand-blue-100 flex items-center justify-center shrink-0 p-0.5 shadow-2xs group-hover:border-brand-gold-400 transition-colors">
+                              <img 
+                                src={logo} 
+                                alt={`Logo ${plan}`} 
+                                className="max-h-full max-w-full object-contain"
+                                referrerPolicy="no-referrer"
+                              />
+                            </div>
+                          ) : (
+                            <div className="w-6 h-6 rounded-lg bg-white border border-brand-blue-100 flex items-center justify-center shrink-0 group-hover:border-brand-gold-300 transition-colors">
+                              <CheckCircle2 className="w-4 h-4 text-brand-gold-500 group-hover:scale-110 transition-transform" />
+                            </div>
+                          )}
+                          <span className="text-xs sm:text-[13px] font-extrabold text-brand-blue-900 leading-snug group-hover:text-brand-blue-950">
+                            {plan}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="text-center py-10 px-4">
+                    <div className="w-12 h-12 rounded-full bg-brand-gold-100 text-brand-gold-600 flex items-center justify-center mx-auto mb-3">
+                      <ShieldCheck className="w-6 h-6" />
+                    </div>
+                    <p className="font-bold text-brand-blue-900 text-base">
+                      Nenhum plano encontrado com "{searchTerm}"
+                    </p>
+                    <p className="text-brand-blue-600 text-xs sm:text-sm max-w-md mx-auto mt-1 leading-relaxed">
+                      Não se preocupe! Também emitimos laudos e relatórios técnicos para você utilizar o sistema de <strong>reembolso livre escolha</strong> no seu convênio.
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Rodapé do Modal */}
+              <div className="p-4 sm:p-5 bg-brand-blue-50/70 border-t border-brand-blue-100/80 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="text-center sm:text-left">
+                  <p className="text-xs font-bold text-brand-blue-900">
+                    Deseja confirmar seu plano ou agendar consulta?
+                  </p>
+                  <p className="text-[11px] text-brand-blue-600">
+                    Nossa equipe responde rápido e ajuda com as autorizações.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 w-full sm:w-auto">
+                  <button
+                    onClick={() => setIsModalOpen(false)}
+                    className="flex-1 sm:flex-none px-4 py-2.5 rounded-full border border-brand-blue-200 text-brand-blue-700 hover:bg-white text-xs font-bold transition-colors cursor-pointer"
+                  >
+                    Fechar
+                  </button>
+                  <a
+                    href={WHATSAPP_LINK}
+                    onClick={trackWhatsAppConversion}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-brand-gold-500 hover:bg-brand-gold-600 text-white font-extrabold px-5 py-2.5 rounded-full shadow hover:shadow-md text-xs sm:text-sm transition-all"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    Consultar no WhatsApp
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
