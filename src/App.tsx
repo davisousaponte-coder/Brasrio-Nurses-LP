@@ -107,6 +107,7 @@ const trackWhatsAppConversion = () => {
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -115,26 +116,88 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
         <div className="flex items-center">
           <Logo theme="light" className="h-16 w-auto md:h-20" />
         </div>
         
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-7">
           <a href="#tratamentos" className="text-brand-blue-700 hover:text-brand-gold-600 font-medium transition-colors">Tratamentos</a>
           <a href="#diferenciais" className="text-brand-blue-700 hover:text-brand-gold-600 font-medium transition-colors">Diferenciais</a>
           <a href="#vacuo" className="text-brand-blue-700 hover:text-brand-gold-600 font-medium transition-colors">Curativo a Vácuo</a>
           <a href="#sobre" className="text-brand-blue-700 hover:text-brand-gold-600 font-medium transition-colors">Sobre</a>
-          <a href={WHATSAPP_LINK} className="bg-brand-blue-900 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-brand-blue-800 transition-all shadow-lg hover:shadow-brand-blue-900/20 active:scale-95">
+          <a href="#convenios" className="text-brand-blue-700 hover:text-brand-gold-600 font-medium transition-colors">Convênios</a>
+          <a href={WHATSAPP_LINK} onClick={trackWhatsAppConversion} target="_blank" rel="noopener noreferrer" className="bg-brand-blue-900 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-brand-blue-800 transition-all shadow-lg hover:shadow-brand-blue-900/20 active:scale-95">
             Agendar Avaliação
           </a>
         </div>
 
-        <button className="md:hidden text-brand-blue-900">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        <button 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+          className="lg:hidden text-brand-blue-900 p-2 focus:outline-none"
+          aria-label="Abrir menu de navegação"
+        >
+          {isMobileMenuOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+          )}
         </button>
       </div>
+
+      {/* Menu mobile com links de navegação e sitelink de convênios */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden bg-white border-t border-brand-blue-50 px-4 pt-3 pb-6 shadow-xl flex flex-col gap-2">
+          <a 
+            href="#tratamentos" 
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="text-brand-blue-900 hover:text-brand-gold-600 font-semibold py-2 border-b border-brand-blue-50 transition-colors"
+          >
+            Tratamentos
+          </a>
+          <a 
+            href="#diferenciais" 
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="text-brand-blue-900 hover:text-brand-gold-600 font-semibold py-2 border-b border-brand-blue-50 transition-colors"
+          >
+            Diferenciais
+          </a>
+          <a 
+            href="#vacuo" 
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="text-brand-blue-900 hover:text-brand-gold-600 font-semibold py-2 border-b border-brand-blue-50 transition-colors"
+          >
+            Curativo a Vácuo
+          </a>
+          <a 
+            href="#sobre" 
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="text-brand-blue-900 hover:text-brand-gold-600 font-semibold py-2 border-b border-brand-blue-50 transition-colors"
+          >
+            Sobre a Clínica
+          </a>
+          <a 
+            href="#convenios" 
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="text-brand-blue-900 hover:text-brand-gold-600 font-semibold py-2 border-b border-brand-blue-50 transition-colors"
+          >
+            Convênios Aceitos
+          </a>
+          <a 
+            href={WHATSAPP_LINK} 
+            onClick={() => {
+              trackWhatsAppConversion();
+              setIsMobileMenuOpen(false);
+            }} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="bg-brand-blue-900 text-white text-center py-3 rounded-full font-bold hover:bg-brand-blue-800 transition-all shadow-md mt-2"
+          >
+            Agendar Avaliação no WhatsApp
+          </a>
+        </div>
+      )}
     </nav>
   );
 };
@@ -856,8 +919,8 @@ const Specialists = () => {
       bullets: [
         "Sócio-proprietária da BrasaRio Nurses – tratamento especializado de feridas",
         "Graduada em Enfermagem pela Faculdade Anhanguera",
-        "Pós-graduada em Dermatologia e Tratamento de Feridas (Facuminas)",
-        "Pós-graduada em Estomaterapia (Facuminas)",
+        "Pós-graduada em Dermatologia e Tratamento de Feridas",
+        "Pós-graduada em Estomaterapia",
         "Formação em PRP e PRF pelo Instituto Regenera",
         "Experiência em ambiente industrial com atuação em empresas de referência em curativos e tecnologias em saúde",
         "Atuação clínica com foco em curativos modernos, laserterapia e ozonioterapia"
@@ -1071,8 +1134,8 @@ const Insurances = () => {
   );
 
   return (
-    <section className="py-8 md:py-12 bg-white">
-      <div className="max-w-7xl mx-auto px-4">
+    <section id="convenios" className="py-8 md:py-12 bg-white scroll-mt-24">
+      <div id="convenios-aceitos" className="max-w-7xl mx-auto px-4">
         <SectionHeader title="Aceitamos Convênios" subtitle="Confira alguns dos principais convênios que atendemos em nossa clínica." centered />
         
         {/* Destaque dos 6 principais com Logos e Nomes */}
