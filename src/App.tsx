@@ -227,6 +227,56 @@ const SectionHeader = ({ title, subtitle, centered = false }: { title: string, s
   </div>
 );
 
+// Planos que NÃO são atendidos pela clínica por convênio direto
+export const NON_ACCEPTED_PLANS = [
+  "Unimed (todos os planos)",
+  "Amil",
+  "Cassi",
+  "Bradesco",
+  "SulAmérica / NotreDame",
+  "MedSênior",
+  "Porto Seguro"
+];
+
+export const NonAcceptedPlansTicker = ({ 
+  badgeText = "NÃO ATENDEMOS", 
+  subtitle 
+}: { 
+  badgeText?: string;
+  subtitle?: string;
+}) => (
+  <div className="w-full relative overflow-hidden rounded-2xl bg-rose-50/95 border-2 border-rose-200/90 shadow-sm py-2.5 sm:py-3 select-none">
+    <div className="flex items-center">
+      <div className="shrink-0 z-10 px-2.5 sm:px-3.5 flex items-center gap-1.5 bg-rose-600 text-white font-black text-[10px] sm:text-xs uppercase tracking-wider py-1 sm:py-1.5 rounded-full shadow-xs ml-2 sm:ml-3 mr-2 sm:mr-3">
+        <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+        <span className="whitespace-nowrap">{badgeText}</span>
+      </div>
+      <div className="overflow-hidden flex-1 relative">
+        <div className="animate-marquee flex items-center whitespace-nowrap">
+          {[1, 2].map((loopIdx) => (
+            <div key={loopIdx} className="flex items-center gap-5 sm:gap-7 pr-5 sm:pr-7 text-xs sm:text-sm font-black text-rose-950">
+              {NON_ACCEPTED_PLANS.map((plan, idx) => (
+                <span key={idx} className="inline-flex items-center gap-1.5 hover:text-rose-700 transition-colors">
+                  <span className="w-4 h-4 rounded-full bg-rose-200 text-rose-700 flex items-center justify-center text-[10px] font-black shrink-0">✕</span>
+                  <span>{plan}</span>
+                </span>
+              ))}
+              <span className="text-rose-500 font-semibold text-xs tracking-normal inline-flex items-center gap-1">
+                • <span>(Atendimento particular disponível com suporte para reembolso livre escolha)</span> •
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+    {subtitle && (
+      <p className="text-center text-[11px] sm:text-xs text-rose-700 font-semibold mt-1.5 px-4">
+        {subtitle}
+      </p>
+    )}
+  </div>
+);
+
 const Hero = () => (
   <section className="relative flex items-center pt-24 pb-12 overflow-hidden bg-brand-blue-50/20">
     <div className="absolute -top-24 -right-24 w-96 h-96 bg-brand-gold-100 rounded-full blur-3xl opacity-50" />
@@ -265,6 +315,11 @@ const Hero = () => (
             ))}
           </div>
           <p className="text-xs md:text-sm">Mais de <span className="text-brand-blue-900 font-bold">500 vidas</span> transformadas pelo nosso acompanhamento.</p>
+        </div>
+
+        {/* Tarja Passando na Hero: Comunicação dos Planos Não Atendidos */}
+        <div className="w-full mt-7 mb-2 max-w-4xl mx-auto">
+          <NonAcceptedPlansTicker />
         </div>
 
         {/* Carrossel de Fotos da Recepção e Outros Espaços */}
@@ -882,8 +937,8 @@ const About = () => (
         <div className="flex justify-center">
           <div className="w-full max-w-md rounded-[2.5rem] overflow-hidden shadow-xl border-4 border-white bg-white/50 p-2 hover:scale-[1.01] transition-transform duration-300">
             <img 
-              src="https://i.ibb.co/pBkwkYvF/Juntas-brasrio.jpg" 
-              alt="Enf. Vanessa Oliveira e Enf. Juliane Brandão" 
+              src="https://i.ibb.co/cXhQBG6Y/July-brasrio.jpg" 
+              alt="Enf. Juliane Brandão - Clínica Brasrio Nurses" 
               className="w-full h-auto object-cover rounded-[2rem]"
               referrerPolicy="no-referrer"
             />
@@ -897,33 +952,18 @@ const About = () => (
 const Specialists = () => {
   const team = [
     {
-      name: "Enf. Vanessa Oliveira",
-      coren: "COREN-DF 594448",
-      specialty: "Especialista em tratamento de feridas, práticas integrativas e tecnologias de cicatrização",
-      image: "https://i.ibb.co/VY3rsZz0/Vanessa-Brasrio.jpg",
-      bullets: [
-        "Sócio-proprietária da BrasaRio Nurses – referência em tratamento de feridas",
-        "Graduada em Enfermagem pela Faculdade Anhanguera",
-        "Pós-graduada em Terapia Intensiva, Urgência, Emergência e Trauma",
-        "Pós-graduada em Estomaterapia",
-        "Pós-graduada em Estética Avançada",
-        "Formação em Práticas Integrativas em Saúde, com foco em ozonioterapia e terapia ortomolecular",
-        "Atuação clínica com curativos modernos e tecnologias avançadas para cicatrização de feridas de difícil cicatrização"
-      ]
-    },
-    {
       name: "Enf. Juliane Brandão",
       coren: "COREN-DF 550882",
       specialty: "Especialista em cuidado avançado de feridas e cicatrização tecnológica",
       image: "https://i.ibb.co/5gVrKk2D/Jully-Brasrio.jpg",
       bullets: [
-        "Sócio-proprietária da BrasaRio Nurses – tratamento especializado de feridas",
+        "Responsável técnica e especialista da Clínica Brasrio Nurses – tratamento especializado de feridas",
         "Graduada em Enfermagem pela Faculdade Anhanguera",
         "Pós-graduada em Dermatologia e Tratamento de Feridas",
         "Pós-graduada em Estomaterapia",
         "Formação em PRP e PRF pelo Instituto Regenera",
-        "Experiência em ambiente industrial com atuação em empresas de referência em curativos e tecnologias em saúde",
-        "Atuação clínica com foco em curativos modernos, laserterapia e ozonioterapia"
+        "Experiência com as tecnologias e curativos mais avançados do mercado em saúde",
+        "Atuação clínica focada em curativos modernos, laserterapia, ozonioterapia e terapia por pressão negativa"
       ]
     }
   ];
@@ -932,42 +972,42 @@ const Specialists = () => {
     <section className="py-8 md:py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         <SectionHeader 
-          title="Equipe de Enfermagem Especializada em Tratamento de Feridas" 
-          subtitle="A BrasaRio Nurses conta com profissionais altamente qualificadas, com atuação clínica focada em tratamento avançado de feridas, cicatrização acelerada e tecnologias em saúde integrativa." 
+          title="Enfermagem Especializada em Tratamento de Feridas" 
+          subtitle="A Brasrio Nurses conta com atendimento clínico de excelência, focado no tratamento avançado de feridas, cicatrização acelerada e tecnologias em saúde integrativa." 
           centered 
         />
         
-        <div className="grid md:grid-cols-2 gap-6 mt-8 max-w-6xl mx-auto">
+        <div className="max-w-3xl mx-auto mt-8">
           {team.map((member, i) => (
             <motion.div 
               key={i}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.6 }}
-              className="bg-brand-blue-50/50 rounded-[3rem] border border-brand-blue-100 p-8 md:p-10 flex flex-col justify-between hover:shadow-2xl hover:border-brand-gold-300 transition-all duration-300 group"
+              transition={{ duration: 0.6 }}
+              className="bg-brand-blue-50/50 rounded-[3rem] border border-brand-blue-100 p-8 md:p-10 flex flex-col md:flex-row gap-8 items-center md:items-start hover:shadow-2xl hover:border-brand-gold-300 transition-all duration-300 group"
             >
-              <div>
-                <div className="relative mb-8 mx-auto w-full aspect-[3/4] max-w-[340px] rounded-[2.5rem] overflow-hidden shadow-xl border-4 border-white group-hover:scale-[1.02] transition-transform">
-                  <img 
-                    src={member.image} 
-                    alt={member.name} 
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute top-4 right-4 bg-brand-gold-500 text-brand-blue-900 font-extrabold text-[11px] px-4 py-1.5 rounded-full shadow-md uppercase tracking-wider">
-                    {member.coren}
-                  </div>
+              <div className="relative w-full aspect-[3/4] max-w-[280px] md:max-w-[260px] rounded-[2.5rem] overflow-hidden shadow-xl border-4 border-white shrink-0 group-hover:scale-[1.02] transition-transform mx-auto md:mx-0">
+                <img 
+                  src={member.image} 
+                  alt={member.name} 
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute top-4 right-4 bg-brand-gold-500 text-brand-blue-900 font-extrabold text-[11px] px-4 py-1.5 rounded-full shadow-md uppercase tracking-wider">
+                  {member.coren}
                 </div>
+              </div>
 
-                <div className="text-center md:text-left">
+              <div className="flex-1 text-center md:text-left">
+                <div>
                   <h3 className="text-2xl md:text-3xl font-black text-brand-blue-900 mb-2">{member.name}</h3>
                   <p className="text-brand-gold-600 font-bold text-xs uppercase tracking-widest mb-6 leading-relaxed">
                     {member.specialty}
                   </p>
                 </div>
 
-                <ul className="space-y-3.5 mt-4 text-left">
+                <ul className="space-y-3.5 text-left">
                   {member.bullets.map((bullet, idx) => (
                     <li key={idx} className="flex items-start gap-3 text-brand-blue-700 text-sm md:text-base font-medium leading-relaxed">
                       <div className="w-5 h-5 rounded-full bg-brand-gold-100 flex items-center justify-center text-brand-gold-600 flex-shrink-0 mt-0.5">
@@ -1035,7 +1075,6 @@ const HowItWorks = () => {
 const ALL_INSURANCES = [
   "AFEB BRASAL",
   "ALLIANZ SAÚDE",
-  "BACEN",
   "BRB SAÚDE",
   "CAMED SAÚDE",
   "CASEC (CADEVASF)",
@@ -1133,6 +1172,25 @@ const Insurances = () => {
     item.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const isNonAcceptedSearch = Boolean(
+    searchTerm.trim().length >= 2 &&
+    (
+      searchTerm.toLowerCase().includes("unimed") ||
+      searchTerm.toLowerCase().includes("amil") ||
+      searchTerm.toLowerCase().includes("cassi") ||
+      searchTerm.toLowerCase().includes("bradesco") ||
+      searchTerm.toLowerCase().includes("sul") ||
+      searchTerm.toLowerCase().includes("america") ||
+      searchTerm.toLowerCase().includes("américa") ||
+      searchTerm.toLowerCase().includes("notre") ||
+      searchTerm.toLowerCase().includes("dame") ||
+      searchTerm.toLowerCase().includes("senior") ||
+      searchTerm.toLowerCase().includes("sênior") ||
+      searchTerm.toLowerCase().includes("porto") ||
+      searchTerm.toLowerCase().includes("bacen")
+    )
+  );
+
   return (
     <section id="convenios" className="py-8 md:py-12 bg-white scroll-mt-24">
       <div id="convenios-aceitos" className="max-w-7xl mx-auto px-4">
@@ -1163,6 +1221,52 @@ const Insurances = () => {
           ))}
         </div>
 
+        {/* Tarja Passando na Seção de Convênios */}
+        <div className="mt-8 max-w-4xl mx-auto">
+          <NonAcceptedPlansTicker />
+        </div>
+
+        {/* Bloco de Alerta Destacado: Planos NÃO Atendidos */}
+        <div className="mt-6 max-w-4xl mx-auto">
+          <div className="bg-rose-50/90 border-2 border-rose-200 rounded-3xl p-5 sm:p-7 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-rose-200/80">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-rose-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+                  <AlertTriangle className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-base sm:text-lg font-heading font-black text-rose-950 uppercase tracking-tight">
+                    Importante: Planos que NÃO atendemos
+                  </h4>
+                  <p className="text-xs sm:text-sm text-rose-800 font-medium">
+                    Não possuímos credenciamento direto com as seguintes operadoras de saúde:
+                  </p>
+                </div>
+              </div>
+              <span className="self-start sm:self-auto bg-rose-200 text-rose-900 text-xs font-black uppercase tracking-wider px-3.5 py-1.5 rounded-full shrink-0 shadow-2xs">
+                Particular com Reembolso
+              </span>
+            </div>
+
+            {/* Badges dos Planos Não Atendidos */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+              {NON_ACCEPTED_PLANS.map((plan, idx) => (
+                <div 
+                  key={idx}
+                  className="flex items-center gap-2 p-2.5 sm:p-3 bg-white border border-rose-200/90 rounded-2xl shadow-2xs text-rose-950 font-black text-xs sm:text-[13px] hover:border-rose-400 transition-colors"
+                >
+                  <span className="w-5 h-5 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center text-xs font-black shrink-0">✕</span>
+                  <span className="truncate">{plan}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-4 pt-3.5 border-t border-rose-200/60 text-xs text-rose-800 leading-relaxed">
+              <strong>Possui um desses planos?</strong> Você ainda pode realizar o seu tratamento na Clínica Brasrio Nurses na modalidade <strong>particular</strong>. Fornecemos nota fiscal descritiva, relatórios de enfermagem e toda a documentação necessária para que você possa solicitar o <strong>reembolso integral ou parcial</strong> junto à sua operadora.
+            </div>
+          </div>
+        </div>
+
         {/* Botão de Destaque para Abrir Lista Completa dos 32 Planos */}
         <div className="mt-8 flex justify-center">
           <button
@@ -1180,7 +1284,7 @@ const Insurances = () => {
               Clique para ver todos os Planos Atendidos
             </span>
             <span className="bg-brand-gold-500 text-brand-blue-950 font-black text-xs px-2.5 py-1 rounded-full uppercase tracking-wider shrink-0 shadow-sm">
-              32 Planos
+              {ALL_INSURANCES.length} Planos
             </span>
           </button>
         </div>
@@ -1293,10 +1397,38 @@ const Insurances = () => {
                     </button>
                   )}
                 </div>
+
+                {/* Aviso Fixo de Planos Não Atendidos no Modal */}
+                <div className="mt-3.5 p-3 bg-rose-950/80 border border-rose-400/40 rounded-xl flex items-start gap-2.5 text-xs text-rose-100">
+                  <span className="w-4 h-4 rounded-full bg-rose-500 text-white flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">✕</span>
+                  <div className="leading-snug">
+                    <strong className="text-rose-200">Não atendemos convênio direto com:</strong> Unimed (todos os planos), Amil, Cassi, Bradesco, SulAmérica / NotreDame, MedSênior e Porto Seguro (apenas particular com nota e laudo para reembolso).
+                  </div>
+                </div>
               </div>
 
               {/* Corpo da Lista com Scroll Suave */}
               <div className="p-5 sm:p-6 overflow-y-auto flex-1 divide-y divide-brand-blue-50">
+                {/* Alerta Dinâmico quando o usuário busca por plano não atendido */}
+                {isNonAcceptedSearch && (
+                  <div className="mb-4 p-4 rounded-2xl bg-rose-50 border-2 border-rose-300 text-rose-950 flex items-start gap-3 shadow-xs">
+                    <div className="w-8 h-8 rounded-xl bg-rose-600 text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                      <AlertTriangle className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h5 className="font-heading font-black text-sm text-rose-950 uppercase tracking-tight">
+                        Aviso: Não atendemos este plano por convênio direto
+                      </h5>
+                      <p className="text-xs text-rose-800 mt-1 leading-relaxed">
+                        A Clínica Brasrio Nurses <strong>não possui credenciamento direto</strong> com Unimed (todos os planos), Amil, Cassi, Bradesco, SulAmérica / NotreDame, MedSênior ou Porto Seguro.
+                      </p>
+                      <p className="text-xs text-rose-900 font-extrabold mt-1.5">
+                        💡 Você pode realizar o atendimento na modalidade <strong>particular</strong>: emitimos nota fiscal e laudo técnico para você solicitar o <strong>reembolso</strong> à sua operadora.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between mb-3 text-xs text-brand-blue-600 font-bold">
                   <span className="flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
